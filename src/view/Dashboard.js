@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Table, FormControl, InputGroup } from 'react-bootstrap';
+import axios from 'axios'
+import { Container, Row, Col, Table, FormControl, InputGroup, Button } from 'react-bootstrap'
 
 class Dashboard extends Component {
 
@@ -7,36 +8,34 @@ class Dashboard extends Component {
         super(props);
 
         this.state = {
-            lists : [
-                {
-                    id: 1,
-                    firstname: 'Mark',
-                    lastname: 'Otto',
-                    username: '@mdo'
-                },
-                {
-                    id: 2,
-                    firstname: 'Jacob',
-                    lastname: 'Thornton',
-                    username: '@fat'
-                },
-                {
-                    id: 3,
-                    firstname: 'Joseph',
-                    lastname: 'Joaquin',
-                    username: '@phi'
-                },
-            ]
+            users: []
         }
     }
 
+    componentDidMount() {
+        axios.get('https://jsonplaceholder.typicode.com/users')
+        .then(res => {
+            this.setState({
+                users: res.data
+            })
+        })
+    }
+
+    deleteUser = () => {
+        alert('delete');
+    }
+
     render() {
-        const items = this.state.lists.map((list) => 
-            <tr>
+        const items = this.state.users.map((list) => 
+            <tr key={list.id}>
                 <td>{list.id}</td>
-                <td>{list.firstname}</td>
-                <td>{list.lastname}</td>
-                <td>{list.username}</td>
+                <td>{list.name}</td>
+                <td>{list.company.name}</td>
+                <td>{list.email}</td>
+                <td>{list.phone}</td>
+                <td>
+                    <Button variant="danger" onClick={this.deleteUser}>X</Button>
+                </td>
             </tr>
         )
 
@@ -60,9 +59,11 @@ class Dashboard extends Component {
                             <thead>
                                 <tr>
                                 <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
+                                <th>Fullname</th>
+                                <th>Company Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
