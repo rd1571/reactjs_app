@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Container, Row, Col, Table, FormControl, InputGroup, Button } from 'react-bootstrap'
+import { Container, Row, Col, Input } from 'reactstrap'
+import TableUser from '../components/TableUser'
+import AddUserModal from '../components/AddUserModal'
 
 class Dashboard extends Component {
 
@@ -21,57 +23,40 @@ class Dashboard extends Component {
         })
     }
 
-    deleteUser = () => {
-        alert('delete');
+    deleteUser = (id) => {
+        console.log(`delete=${id}`);
+        // axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
+        // .then(res => {
+
+        // });
+    }
+
+    editUser = (id) => {
+        console.log(`edit=${id}`);
     }
 
     render() {
-        const items = this.state.users.map((list) => 
-            <tr key={list.id}>
-                <td>{list.id}</td>
-                <td>{list.name}</td>
-                <td>{list.company.name}</td>
-                <td>{list.email}</td>
-                <td>{list.phone}</td>
-                <td>
-                    <Button variant="danger" onClick={this.deleteUser}>X</Button>
-                </td>
-            </tr>
-        )
 
         return (
             
             <Container> 
-
+                
                 <Row>
-                    <Col md={{ span: 3, offset: 9 }}>
-                    <InputGroup className="mb-3 mt-3">
-                        <FormControl
-                        placeholder="Search"
-                        aria-label="Amount (to the nearest dollar)"
-                        />
-                    </InputGroup>
+                    <Col>
+                        <AddUserModal buttonLabel="+" modalTitle="Add User"/>
                     </Col>
-                </Row>               
-                <Row>
-                    <Col sm={12} md={12}>
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                <th>#</th>
-                                <th>Fullname</th>
-                                <th>Company Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                { items }
-                            </tbody>
-                        </Table>
+                    <Col></Col>
+                    <Col>
+                        <Input type="search" name="search" className="mb-3 mt-3" placeholder="Search..." />
                     </Col>
                 </Row>
+                <Row>
+                    <Col sm={12} md={12}>
+                        <TableUser users={this.state.users} deleteUser={this.deleteUser} editUser={this.editUser}/>
+                    </Col>
+                </Row>
+
+                
             </Container>
         )
     }
