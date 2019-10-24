@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Container, Row, Col, Input } from 'reactstrap'
 import TableUser from '../components/TableUser'
-import AddUserModal from '../components/AddUserModal'
+import UserModal from '../components/AddUserModal'
 
 class Dashboard extends Component {
 
@@ -10,8 +10,17 @@ class Dashboard extends Component {
         super(props);
 
         this.state = {
-            users: []
+            users: [],
+            showModal: false
         }
+    }
+
+    showModal = (e) => {
+        this.setState({ showModal: true })
+    }
+
+    hideModal = (e) => {
+        this.setState({ showModal: false })
     }
 
     componentDidMount() {
@@ -43,7 +52,8 @@ class Dashboard extends Component {
                 
                 <Row>
                     <Col>
-                        <AddUserModal buttonLabel="+" modalTitle="Add User"/>
+                        <UserModal buttonLabel="+" modalTitle="Add User"/>
+                        {/* <button type="button" onClick={this.showModal}>+</button> */}
                     </Col>
                     <Col></Col>
                     <Col>
